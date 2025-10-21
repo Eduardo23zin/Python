@@ -1,0 +1,63 @@
+import pygame
+import sys
+#inicializa o Pygame
+pygame.init()
+
+
+cor_fundo = (0, 100, 100) #Variavel guarda o estado atual da cor
+screen = pygame.display.set_mode((400, 300))#Cria a tela 400x300
+pygame.display.set_caption("Teste Pygame")#define o nome da Janela
+clock = pygame.time.Clock()
+running = True #Variavel de controle do Estado do Jogo
+font = pygame.font.SysFont(None,30)
+
+#Variaveis para posição do quadrado
+quadrado_x = 175
+quadrado_y = 125
+velocidade = 5 #Pixels por frame
+
+
+while running: #enquanto estiver rodando
+    clock.tick(60) #limitador de fps
+
+    #fps = clock.get_fps()
+    for event in pygame.event.get(): #Escuta por evento
+        teclas = pygame.key.get_pressed()
+        if event.type == pygame.QUIT: #se tiver algum evento
+            running = False #estado do jogo = falso, fim de jogo!
+
+        #Novo detector teclas pressionadas
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_r: #tecla R  
+               cor_fundo = (200, 0, 0)#vermelho
+            elif event.key == pygame.K_g: #tecla g
+                cor_fundo = (0, 200, 0) #verde
+            elif  event.key == pygame.K_b: #tecla b
+                cor_fundo = (0, 0, 200) #azul
+
+            screen.fill(cor_fundo)
+
+
+        if teclas[pygame.K_LEFT]:
+            quadrado_x -= velocidade
+        if teclas[pygame.K_RIGHT]:
+            quadrado_x +=velocidade
+        if teclas[pygame.K_UP]:
+            quadrado_y -= velocidade
+        if teclas[pygame.K_DOWN]:
+            quadrado_y += velocidade
+
+#Novo: desenhar um retangulo vermelho
+pygame.draw.rect(screen, (255,0, 0), (quadrado_x, quadrado_y, 50, 50))
+
+
+#Preencha a tela com cor azul
+screen.fill((100, 100, 200))
+fps = pygame.display.set_caption("FPS do jogo")
+print(clock.get_fps())
+
+#Atualiza a tela
+pygame.display.flip()
+
+pygame.quit() #Encerra o jogo
+sys.exit() #Encerra a janela
